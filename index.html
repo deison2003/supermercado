@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermercado</title>
+</head>
+<body>
+    <h1> Supermercado</h1>
+    <p>Selecciona un procedimiento almacenado y proporciona los datos necesarios:</p>
+
+    <form action="php/supermercado.php" method="POST">
+        <label for="accion">Procedimiento:</label>
+        <select name="accion" id="accion">
+            <option value="">-- Selecciona un procedimiento --</option>
+            <option value="InsertarCategoria">Insertar Categoría</option>
+            <option value="InsertarCliente">Insertar Cliente</option>
+            <option value="ActualizarPrecioProducto">Actualizar Precio de Producto</option>
+            <option value="InsertarEmpleado">Insertar Empleado</option>
+            <option value="InsertarProveedor">Insertar Proveedor</option>
+            <option value="InsertarVenta">Insertar Venta</option>
+            <option value="InsertarPago">Insertar Pago</option>
+            <option value="AgregarProductoVenta">Agregar Producto a Venta</option>
+            <option value="EliminarCliente">Eliminar Cliente</option>
+            <option value="EliminarProducto">Eliminar Producto</option>
+            <option value="ObtenerVentasCliente">Obtener Ventas de Cliente</option>
+            <option value="ObtenerDetallesVenta">Obtener Detalles de Venta</option>
+        </select>
+
+        <br><br>
+
+        <div id="inputFields"></div>
+
+        <br>
+
+        <button type="submit">Ejecutar</button>
+    </form>
+
+    <h2>Resultado:</h2>
+    <pre>
+        <?php session_start(); echo isset($_SESSION["resultado"]) ? htmlspecialchars($_SESSION["resultado"]) : "Sin resultados aún."; ?>
+    </pre>
+
+    <script>
+        document.getElementById("accion").addEventListener("change", function() {
+            let inputFields = document.getElementById("inputFields");
+            inputFields.innerHTML = "";
+            let accion = this.value;
+
+            let campos = {
+                "InsertarCategoria": ["Nombre de la Categoría"],
+                "InsertarCliente": ["Nombre", "Email", "Teléfono"],
+                "ActualizarPrecioProducto": ["ID del Producto", "Nuevo Precio"],
+                "InsertarEmpleado": ["Nombre", "Puesto", "Salario"],
+                "InsertarProveedor": ["Nombre del Proveedor", "Teléfono"],
+                "InsertarVenta": ["ID Cliente", "ID Empleado"],
+                "InsertarPago": ["ID Venta", "Método de Pago", "Monto"],
+                "AgregarProductoVenta": ["ID Venta", "ID Producto", "Cantidad"],
+                "EliminarCliente": ["ID Cliente"],
+                "EliminarProducto": ["ID Producto"],
+                "ObtenerVentasCliente": ["ID Cliente"],
+                "ObtenerDetallesVenta": ["ID Venta"]
+            };
+
+            if (campos[accion]) {
+                campos[accion].forEach(campo => {
+                    let label = document.createElement("label");
+                    label.innerText = campo + ": ";
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.name = campo.toLowerCase().replace(/ /g, "_");
+                    input.required = true;
+                    inputFields.appendChild(label);
+                    inputFields.appendChild(input);
+                    inputFields.appendChild(document.createElement("br"));
+                });
+            }
+        });
+    </script>
+</body>
+</html>

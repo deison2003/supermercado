@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form action="php/login.php" method="POST">
+            <label for="username">Nombre:</label>
+            <input type="text" name="nombre" required>
+
+            <label for="email">correo:</label>
+            <input type="email" name="email" required>
+
+            <button type="submit">Ingresar</button>
+        </form>
+        <p id="error-message">
+            <?php session_start(); echo isset($_SESSION["error"]) ? $_SESSION["error"] : ""; session_destroy(); ?>
+        </p>
+    </div>
+</body>
+</html>
